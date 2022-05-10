@@ -1,5 +1,5 @@
-# Coded by D4n1l3k300
-# t.me/D4n13l3k00
+# Coded by 404
+# t.me/hhaacckk1 
 # requires: pydub
 from pydub import AudioSegment
 from .. import loader, utils
