@@ -10,7 +10,7 @@ class WeatherMod(loader.Module):
     strings = {'name': 'Weather'}
     
     async def pwcmd(self, message):
-        """"Кидает погоду картинкой.\nИспользование: .pw <город>; ничего."""
+        """"Кидает погоду.\nИспользование: .pw <город>; ничего."""
         args = utils.get_args_raw(message).replace(' ', '+')
         await message.edit("Узнаем погоду...")
         city = requests.get(f"https://wttr.in/{args if args != None else ''}.png").content
