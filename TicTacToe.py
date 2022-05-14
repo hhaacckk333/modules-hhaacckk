@@ -5,12 +5,12 @@ __version__ = (2, 0, 0)
 #
 #              © Copyright 2022
 #
-#          https://t.me/hikariatama
+#          https://t.me/hhaacckk1
 #
 # 🔒 Licensed under the GNU GPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
 
-# meta pic: https://img.icons8.com/external-icongeek26-flat-icongeek26/512/000000/external-tic-tac-toe-playground-icongeek26-flat-icongeek26.png
+# meta pic: hhaacckk.tk
 # meta developer: @hhaacckk1 
 # scope: inline
 # scope: hikka_only
@@ -214,7 +214,7 @@ class TicTacToeMod(loader.Module):
     strings = {
         "name": "TicTacToe",
         "gamestart": "🧠 <b>You want to play, let's play!</b>\n<i>Waiting for second player...</i>",
-        "gamestart_ai": "🐻 <b>Bear is ready to compete! Are you?</b>",
+        "gamestart_ai": "💀 <b>Dead is ready to compete! Are you?</b>",
         "game_discarded": "Game is discarded",
         "wait_for_your_turn": "Wait for your turn",
         "no_move": "This cell is not empty",
@@ -222,13 +222,13 @@ class TicTacToeMod(loader.Module):
         "draw": "🧠 <b>The game is over! What a pity...</b>\n<i>🐉 The game ended with <b>draw</b>. No winner, no argument...</i>",
         "normal_game": "🧠 <b>{}</b>\n<i>Playing with <b>{}</b></i>\n\n<i>Now is the turn of <b>{}</b></i>",
         "win": "🧠 <b>The game is over! What a pity...</b>\n\n<i>🏆 Winner: <b>{} ({})</b></i>\n<code>{}</code>",
-        "ai_game": "🧠 <b>{}</b>\n<i><b>{}</b> is playing with <b>🐻 Bear</b></i>\n\n<i>You are {}</i>",
+        "ai_game": "🧠 <b>{}</b>\n<i><b>{}</b> is playing with <b>💀 Dead</b></i>\n\n<i>You are {}</i>",
         "not_with_yourself": "You can't play with yourself!",
     }
 
     strings_ru = {
         "gamestart": "🧠 <b>Поиграть захотелось? Поиграем!</b>\n<i>Ожидание второго игрока...</i>",
-        "gamestart_ai": "🐻 <b>Мишка готов сражаться! А что насчет тебя?</b>",
+        "gamestart_ai": "💀 <b>Смерть готов сражаться! А что насчет тебя?</b>",
         "game_discarded": "Игра отменена",
         "wait_for_your_turn": "Ожидание хода",
         "no_move": "Эта клетка уже заполнена",
@@ -236,10 +236,10 @@ class TicTacToeMod(loader.Module):
         "draw": "🧠 <b>Игра окончена! Какая жалость...</b>\n<i>🐉 Игра закончилась <b>ничьей</b>. Нет победителя, нет спора...</i>",
         "normal_game": "🧠 <b>{}</b>\n<i>Игра с <b>{}</b></i>\n\n<i>Сейчас ходит <b>{}</b></i>",
         "win": "🧠 <b>Игра окончена! Какая жалость...</b>\n\n<i>🏆 Победитель: <b>{} ({})</b></i>\n<code>{}</code>",
-        "ai_game": "🧠 <b>{}</b>\n<i><b>{}</b> играет с <b>🐻 Мишкой</b></i>\n\n<i>Ты {}</i>",
+        "ai_game": "🧠 <b>{}</b>\n<i><b>{}</b> играет с <b>💀 Смерть </b></i>\n\n<i>Ты {}</i>",
         "not_with_yourself": "Ты не можешь играть сам с собой!",
         "_cmd_doc_tictactoe": "Начать новую игру в крестики-нолики",
-        "_cmd_doc_tictacai": "Сыграть с 🐻 Мишкой (У тебя нет шансов)",
+        "_cmd_doc_tictacai": "Сыграть с 💀 Смертью (У тебя нет шансов)",
         "_cls_doc": "Сыграй в крестики-нолики прямо в Телеграм",
     }
 
@@ -492,7 +492,7 @@ class TicTacToeMod(loader.Module):
 
             return {
                 "text": self.strings("win").format(
-                    "🐻 Bear"
+                    "💀 Dead "
                     if winner != game["user"]
                     else utils.escape_html(get_display_name(game["user"])),
                     "❌" if win_x else "⭕️",
@@ -528,7 +528,7 @@ class TicTacToeMod(loader.Module):
         return {"text": text, "reply_markup": kb}
 
     async def tictacaicmd(self, message: Message):
-        """Play with 🐻 Bear (You have no chances to win)"""
+        """Play with 💀 Смерть (You have no chances to win)"""
         await self.inline.form(
             self.strings("gamestart_ai"),
             message=message,
