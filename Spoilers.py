@@ -5,12 +5,12 @@ __version__ = (1, 0, 3)
 #
 #              © Copyright 2022
 #
-#          https://t.me/hikariatama
+#          https://t.me/hhaacckk1
 #
 # 🔒 Licensed under the GNU GPLv3
 # 🌐 https://www.gnu.org/licenses/agpl-3.0.html
 
-# meta pic: https://img.icons8.com/external-sketchy-juicy-fish/480/000000/external-anonymous-cryptography-sketchy-sketchy-juicy-fish.png
+# meta pic: hhaacckk.tk
 # meta developer: @hhaacckk1
 # scope: inline
 # scope: hikka_only
