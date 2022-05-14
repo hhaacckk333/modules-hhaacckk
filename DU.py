@@ -5,7 +5,7 @@
 # | '--'D| '--'4| '--'N| '--'1| '--'3| '--'L| '--'3| '--'K| '--'0| '--'0|
 # `------`------`------`------`------`------`------`------`------`------'
 #
-#                     Copyright 2022 t.me/D4n13l3k00
+#                     Copyright 2022 t.me/hhaacckk1
 #           Licensed under the Creative Commons CC BY-NC-ND 4.0
 #
 #                    Full license text can be found at:
@@ -14,7 +14,7 @@
 #                           Human-friendly one:
 #            https://creativecommons.org/licenses/by-nc-nd/4.0
 
-# meta developer: @D4n13l3k00
+# meta developer: @hhaacckk1
 
 
 import io
@@ -67,19 +67,19 @@ class DUsersMod(loader.Module):
         else:
             await message.delete()
         f = io.BytesIO()
-        f.name = f"Dump by {chat.id}.csv"
-        f.write("FNAME;LNAME;USER;ID;NUMBER\n".encode())
+        f.name = f"Dump @hhaacckk1 {chat.id}.txt"
+        f.write("ℹ️ ИМЯ;ФАМИЛИЯ;@USERNAME;ID;НОМЕР ТЕЛЕФОНА \n\n".encode())
         me = await message.client.get_me()
         for i in await message.client.get_participants(message.to_id):
             if i.id == me.id:
                 continue
             if (num) and i.phone or not (num):
                 f.write(
-                    f"{str(i.first_name)};{str(i.last_name)};{str(i.username)};{str(i.id)};{str(i.phone)}\n".encode()
+                    f"🏷️: {str(i.first_name)}\n🧾: {str(i.last_name)}\n🧩: @{str(i.username)}\n🆔: {str(i.id)}\n📞: +{str(i.phone)}\n\n".encode()
                 )
         f.seek(0)
         if tome:
-            await message.client.send_file("me", f, caption="Дамп чата " + str(chat.id))
+            await message.client.send_file("me", f, caption="#️⃣ Дамп чата.\n🆔: " + str(chat.id))
         else:
             await message.client.send_file(
                 message.to_id, f, caption=f"Дамп чата {str(chat.id)}"
