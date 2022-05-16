@@ -35,7 +35,7 @@ class VirusMod(loader.Module):
 				return
 			await message.edit("<b>Scan...</b>") 
 			if fil not in ["file.jpg", "file.png", "file.ico", "file.mp3", "file.mp4", "file.gif", "file.txt"]: 
-				token = "36a0e8d295738c70d877b5aca0be95d5fac70525edf2b48e2ea802bcd7226ec3"
+				token = "53692d02943d43fab8414e8a00e33d03e97139973fa56b26075560c484a6be88"
 				params = dict(apikey = token)
 				with open(fil, 'rb') as file:
 					files = dict(file=(fil, file))
