@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Module author: @ftgmodulesbyfl1yd, @GovnoCodules
+# Module author: @hhaacckk1, @hhaacckkeyebot 
 
 from asyncio import sleep
 
