@@ -1,122 +1,181 @@
+#
+#              © Copyright 2022
+#
+#          https://t.me/hhaacckk1 
+#
+# 🔒 Licensed under the GNU GPLv3
+# 🌐 https://www.gnu.org/licenses/agpl-3.0.html
+
+# meta pic: https://img.icons8.com/tiny-color/256/000000/experimental-note-tiny-color.png
+# meta developer: @hhaacckk1 
+
 import logging
 
-from .. import loader, utils
+from telethon.tl.types import Message  # noqa
 
-logger = logging.getLogger("friendly-telegram.modules.notes")
+from .. import loader, utils  # noqa
+
+logger = logging.getLogger(__name__)
 
 
 @loader.tds
 class NotesMod(loader.Module):
-	"""Stores global notes (aka snips)"""
-	strings = {"name": "Notes",
-			   "what_note": "<b>Какую заметку нужно показать?</b>",
-			   "no_note": "<b>Заметка не найдена</b>",
-			   "save_what": "<b>А что сохранить?</b>",
-			   "what_name": "<b>А как будет называться заметка?</b>",
-			   "saved": "<b>Заметка сохранена как:</b> <code>{}</code>",
-			   "notes_header": "<b>Сохранённые заметки:</b>\n\n",
-			   "notes_item": "<b>▷</b> <code>{}</code>",
-			   "delnote_args": "<b>А какую заметку нужно удалить?</b>",
-			   "delnote_done": "<b>Заметка удалена!</b>",
-			   "delnotes_none": "<b>А заметок-то нету...</b>",
-			   "delnotes_done": "<b>ВСЕ ЗАМЕТКИ УДАЛЕНЫ</b>",
-			   "notes_none": "<b>А заметок-то нету...</b>"}
-	
-	
-	async def findnotecmd(self, message):
-		"""Gets the note specified"""
-		args = utils.get_args(message)
-		if not args:
-			await utils.answer(message, self.strings("what_note", message))
-			return
-		asset_id = self._db.get("friendly-telegram.modules.notes", "notes", {}).get(args[0], None)
-		logger.debug(asset_id)
-		if asset_id is not None:
-			asset = await self._db.fetch_asset(asset_id)
-		else:
-			asset = None
-		if asset is None:
-			self.del_note(args[0])
-			await utils.answer(message, self.strings("no_note", message))
-			return
-		link = "https://t.me/c/{}/{}".format(asset.chat.id, asset.id)
-		await message.edit(f'<b>Заметка</b> "<code>{args[0]}</code>" <a href="{link}">находится здесь.</a>')
-		
+    """Advanced notes module with folders and other features"""
 
+    strings = {
+        "name": "Notes",
+        "saved": "💾 <b>Saved note with name </b><code>{}</code>.\nFolder: </b><code>{}</code>.</b>",
+        "no_reply": "🚫 <b>Reply and note name are required.</b>",
+        "no_name": "🚫 <b>Specify note name.</b>",
+        "no_note": "🚫 <b>Note not found.</b>",
+        "available_notes": "💾 <b>Current notes:</b>\n",
+        "no_notes": "😔 <b>You have no notes yet</b>",
+        "deleted": "🙂 <b>Deleted note </b><code>{}</code>",
+    }
 
-	async def notecmd(self, message):
-		"""Gets the note specified"""
-		args = utils.get_args(message)
-		if not args:
-			await utils.answer(message, self.strings("what_note", message))
-			return
-		asset_id = self._db.get("friendly-telegram.modules.notes", "notes", {}).get(args[0], None)
-		logger.debug(asset_id)
-		if asset_id is not None:
-			asset = await self._db.fetch_asset(asset_id)
-		else:
-			asset = None
-		if asset is None:
-			self.del_note(args[0])
-			await utils.answer(message, self.strings("no_note", message))
-			return
-		await message.delete()
-		await message.client.send_message(message.to_id, await self._db.fetch_asset(asset_id), reply_to=await message.get_reply_message())
+    strings_ru = {
+        "saved": "💾 <b>Заметка с именем </b><code>{}</code><b> сохранена</b>.\nПапка: </b><code>{}</code>.</b>",
+        "no_reply": "🚫 <b>Требуется реплай на контент заметки.</b>",
+        "no_name": "🚫 <b>Укажи имя заметки.</b>",
+        "no_note": "🚫 <b>Заметка не найдена.</b>",
+        "available_notes": "💾 <b>Текущие заметки:</b>\n",
+        "no_notes": "😔 <b>У тебя пока что нет заметок</b>",
+        "deleted": "🙂 <b>Заметка с именем </b><code>{}</code> <b>удалена</b>",
+        "_cmd_doc_hsave": "[папка] <имя> - Сохранить заметку",
+        "_cmd_doc_hget": "<имя> - Показать заметку",
+        "_cmd_doc_hdel": "<имя> - Удалить заметку",
+        "_cmd_doc_hlist": "[папка] - Показать все заметки",
+        "_cls_doc": "Модуль заметок с расширенным функционалом. Папки и категории",
+    }
 
-	async def delallnotescmd(self, message):
-		"""Deletes all the saved notes"""
-		if not self._db.get("friendly-telegram.modules.notes", "notes", {}):
-			await utils.answer(message, self.strings("delnotes_none", message))
-			return
-		self._db.get("friendly-telegram.modules.notes", "notes", {}).clear()
-		await utils.answer(message, self.strings("delnotes_done", message))
+    async def client_ready(self, client, db):
+        self._db = db
+        self._client = client
+        self._notes = self.get("notes", {})
 
-	async def savecmd(self, message):
-		"""Save a new note. Must be used in reply with one parameter (note name)"""
-		args = utils.get_args(message)
-		if not args:
-			await utils.answer(message, self.strings("what_name", message))
-			return
-		if not message.is_reply:
-			if len(args) < 2:
-				await utils.answer(message, self.strings("save_what", message))
-				return
-			else:
-				message.entities = None
-				message.message = args[1]
-				target = message
-				logger.debug(target.message)
-		else:
-			target = await message.get_reply_message()
-		asset_id = await self._db.store_asset(target)
-		self._db.set("friendly-telegram.modules.notes", "notes", {**self._db.get("friendly-telegram.modules.notes", "notes", {}), args[0]: asset_id})
-		await utils.answer(message, str(self.strings("saved", message)).format(args[0]))
+    async def hsavecmd(self, message: Message):
+        """[folder] <name> - Save new note"""
+        args = utils.get_args_raw(message)
 
-	async def delnotecmd(self, message):
-		"""Deletes a note, specified by note name"""
-		args = utils.get_args(message)
-		if not args:
-			await utils.answer(message, self.strings("delnote_args", message))
-		self.del_note(args[0])
-		await utils.answer(message, self.strings("delnote_done", message))
+        if len(args.split()) >= 2:
+            folder = args.split()[0]
+            args = args.split(maxsplit=1)[1]
+        else:
+            folder = "global"
 
-	def del_note(self, note):
-		old = self._db.get("friendly-telegram.modules.notes", "notes", {})
-		try:
-			del old[note]
-		except KeyError:
-			pass
-		else:
-			self._db.set("friendly-telegram.modules.notes", "notes", old)
+        reply = await message.get_reply_message()
 
-	async def notescmd(self, message):
-		"""List the saved notes"""
-		if not self._db.get("friendly-telegram.modules.notes", "notes", {}):
-			await utils.answer(message, self.strings("notes_none", message))
-			return
-		await utils.answer(message, self.strings("notes_header", message)
-						   + "\n".join(self.strings("notes_item", message).format(key)
-						   for key in self._db.get("friendly-telegram.modules.notes", "notes", {})))
+        if not (reply and args):
+            await utils.answer(message, self.strings("no_reply"))
+            return
 
-	async def client_ready(self, client, db):
-		self._db = db
+        if folder not in self._notes:
+            self._notes[folder] = {}
+            logger.warning(f"Created new folder {folder}")
+
+        asset = await self._db.store_asset(reply)
+
+        if getattr(reply, "video", False):
+            type_ = "🎞"
+        elif getattr(reply, "photo", False):
+            type_ = "🖼"
+        elif getattr(reply, "voice", False):
+            type_ = "🗣"
+        elif getattr(reply, "audio", False):
+            type_ = "🎧"
+        elif getattr(reply, "file", False):
+            type_ = "📝"
+        else:
+            type_ = "🔹"
+
+        self._notes[folder][args] = {"id": asset, "type": type_}
+
+        self.set("notes", self._notes)
+
+        await utils.answer(message, self.strings("saved").format(args, folder))
+
+    def _get_note(self, name):
+        for category, notes in self._notes.items():
+            for note, asset in notes.items():
+                if note == name:
+                    return asset
+
+    def _del_note(self, name):
+        for category, notes in self._notes.copy().items():
+            for note, asset in notes.copy().items():
+                if note == name:
+                    del self._notes[category][note]
+
+                    if not self._notes[category]:
+                        del self._notes[category]
+
+                    self.set("notes", self._notes)
+                    return True
+
+        return False
+
+    async def hgetcmd(self, message: Message):
+        """<name> - Show specified note"""
+        args = utils.get_args_raw(message)
+        if not args:
+            await utils.answer(message, self.strings("no_name"))
+            return
+
+        asset = self._get_note(args)
+        if not asset:
+            await utils.answer(message, self.strings("no_note"))
+            return
+
+        await self._client.send_message(
+            message.peer_id,
+            await self._db.fetch_asset(asset["id"]),
+            reply_to=getattr(message, "reply_to_msg_id", False),
+        )
+
+        if message.out:
+            await message.delete()
+
+    async def hdelcmd(self, message: Message):
+        """<name> - Delete specified note"""
+        args = utils.get_args_raw(message)
+        if not args:
+            await utils.answer(message, self.strings("no_name"))
+            return
+
+        asset = self._get_note(args)
+        if not asset:
+            await utils.answer(message, self.strings("no_note"))
+            return
+
+        try:
+            await (await self._db.fetch_asset(asset["id"])).delete()
+        except Exception:
+            pass
+
+        self._del_note(args)
+
+        await utils.answer(message, self.strings("deleted").format(args))
+
+    async def hlistcmd(self, message: Message):
+        """[folder] - List all notes"""
+        args = utils.get_args_raw(message)
+
+        if not self._notes:
+            await utils.answer(message, self.strings("no_notes"))
+            return
+
+        result = self.strings("available_notes")
+
+        if not args or args not in self._notes:
+            for category, notes in self._notes.items():
+                result += f"\n🔸 <b>{category}</b>\n"
+                for note, asset in notes.items():
+                    result += f"    {asset['type']} <code>{note}</code>\n"
+
+            await utils.answer(message, result)
+            return
+
+        for note, asset in self._notes[args].items():
+            result += f"{asset['type']} <code>{note}</code>\n"
+
+        await utils.answer(message, result)
