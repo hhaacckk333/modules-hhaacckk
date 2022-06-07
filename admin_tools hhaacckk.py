@@ -5,7 +5,6 @@
 import io
 import time
 
-from PIL import Image
 from telethon.errors import (
     ChatAdminRequiredError,
     PhotoCropSizeSmallError,
