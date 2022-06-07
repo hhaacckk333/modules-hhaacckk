@@ -5,11 +5,7 @@
 import io
 import time
 
-from telethon.errors import (
-    ChatAdminRequiredError,
-    PhotoCropSizeSmallError,
-    UserAdminInvalidError,
-)
+
 from telethon.tl.functions.channels import (
     EditAdminRequest,
     EditBannedRequest,
