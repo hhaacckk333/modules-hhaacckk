@@ -5,14 +5,12 @@ from textwrap import wrap
 import io
 import requests
 from random import choice
-# https://t.me/KeyZenD
-# https://t.me/Govnocodules
-# https://t.me/DneZyeK
+
 logger = logging.getLogger(__name__)
 
 @loader.tds
 class DeMoTiVaToRsMod(loader.Module):
-	"""Демотиваторы на картинки от @GovnoCodules by @DneZyeK"""
+	"""Демотиваторы на картинки от @hhaacckk1"""
 	strings = {
 		"name": "SuperDemotivator"
 	}
