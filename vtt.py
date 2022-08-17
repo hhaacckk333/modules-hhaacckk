@@ -34,26 +34,26 @@ class VoicyMod(loader.Module):
 
     strings = {
         "name": "Voicy",
-        "converting": "<b>🫠 Recognizing voice message...</b>",
-        "converted": "<b>🫠 Recognized:</b>\n<i>{}</i>",
-        "voice_not_found": "🫠 <b>Voice not found</b>",
-        "autovoice_off": "<b>🫠 I will not recognize voice messages in this chat</b>",
-        "autovoice_on": "<b>🫠 I will recognize voice messages in this chat</b>",
+        "converting": "<b>⚠️ Recognizing voice message...</b>",
+        "converted": "<b>⚠️ Recognized:</b>\n<i>{}</i>",
+        "voice_not_found": "⚠️ <b>Voice not found</b>",
+        "autovoice_off": "<b>⚠️ I will not recognize voice messages in this chat</b>",
+        "autovoice_on": "<b>⚠️ I will recognize voice messages in this chat</b>",
         "_cfg_lang": "Language of voices to recognize",
         "_cfg_engine": "Recognition engine",
         "error": "🚫 <b>Recognition error!</b>",
         "_cfg_ignore_users": "Users to ignore",
-        "too_big": "🫥 <b>Voice message is too big, I can't recognise it...</b>",
+        "too_big": "🏗️ <b>Voice message is too big, I can't recognise it...</b>",
     }
 
     strings_ru = {
-        "converting": "<b>🫠 Распознаю голосовое сообщение...</b>",
-        "converted": "<b>🫠 Распознано:</b>\n<i>{}</i>",
-        "voice_not_found": "🫠 <b>Нет ответа на войс</b>",
+        "converting": "<b>⚠️ Распознаю голосовое сообщение...</b>",
+        "converted": "<b>⚠️ Распознано:</b>\n<i>{}</i>",
+        "voice_not_found": "⚠️ <b>Нет ответа на войс</b>",
         "autovoice_off": (
-            "<b>🫠 Я больше не буду распознавать голосовые сообщения в этом чате</b>"
+            "<b>⚠️ Я больше не буду распознавать голосовые сообщения в этом чате</b>"
         ),
-        "autovoice_on": "<b>🫠 Я буду распознавать голосовые сообщения в этом чате</b>",
+        "autovoice_on": "<b>⚠️ Я буду распознавать голосовые сообщения в этом чате</b>",
         "_cmd_doc_voicy": "Распознает голосовое сообщение",
         "_cmd_doc_autovoice": (
             "Включить\\выключить автораспознавание голосовых сообщений в чате"
@@ -64,7 +64,7 @@ class VoicyMod(loader.Module):
         "_cfg_ignore_users": "Игнорировать пользователей",
         "error": "🚫 <b>Ошибка распознавания!</b>",
         "too_big": (
-            "🫥 <b>Голосовое сообщение слишком большое, я не могу его распознать...</b>"
+            "🏗️ <b>Голосовое сообщение слишком большое, я не могу его распознать...</b>"
         ),
     }
 
