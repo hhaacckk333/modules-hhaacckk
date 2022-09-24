@@ -251,4 +251,4 @@ class VoicyMod(loader.Module):
             await utils.answer(message, self.strings("autovoice_off"))
         else:
             self.chats.append(chat_id)
-            await utils.answer(message, self.strings("autovoice_on")) 
+            await utils.answer(message, self.strings("autovoice_on"))
