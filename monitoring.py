@@ -1,4 +1,4 @@
-
+#
 
 import asyncio
 import logging
@@ -36,7 +36,7 @@ class DevMontiroingMod(loader.Module):
 
 <b>🤖 Бот:</b> <code>{bot}</code>
 <b>⏳ Интервал проверки:</b> <code>{interval} с.</code>
-<b>⚙️ Команда:</b> <code>{command}</code""",
+<b>⚙️ Команда:</b> <code>{command}</code>""",
         "action_bot_deleted": "<b>✅ Бот {bot} успешно снят с мониторинга</b>",
         "value_not_specified": "[укажите значение]",
         "enter_value": "✍️ Введите новое значение для этой опции",
