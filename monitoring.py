@@ -1,5 +1,3 @@
-#
-
 import asyncio
 import logging
 import time
@@ -16,7 +14,7 @@ logger = logging.getLogger(__name__)
 @loader.tds
 class DevMontiroingMod(loader.Module):
     strings_ru = {
-        "name": "BOTMonitoring",
+        "name": "DevMonitoring",
         "form_addmon": """<b>Мониторинг бота</b>
 
 <b>🤖 Бот:</b> <code>{bot}</code>
