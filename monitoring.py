@@ -1,5 +1,3 @@
-# meta developer: @json1c
-
 import asyncio
 import logging
 import time
