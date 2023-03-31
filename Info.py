@@ -1,14 +1,4 @@
-#             █ █ ▀ █▄▀ ▄▀█ █▀█ ▀
-#             █▀█ █ █ █ █▀█ █▀▄ █
-#              © Copyright 2022
-#           https://t.me/hikariatama
-#
-# 🔒      Licensed under the GNU AGPLv3
-# 🌐 https://www.gnu.org/licenses/agpl-3.0.html
-
-# meta pic: https://static.hikari.gay/userinfo_icon.png
-# meta banner: https://mods.hikariatama.ru/badges/userinfo.jpg
-# meta developer: @hikarimods
+# meta developer: @hhaacckk1
 # scope: hikka_only
 # scope: hikka_min 1.2.10
 
