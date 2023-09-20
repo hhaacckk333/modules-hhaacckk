@@ -21,25 +21,25 @@ class EyeCheckerTGMod(loader.Module):
         self._db = db
         self._client = client
 
-    async def gbuid(self, m):
+    async def checkcmd(self, m):
         """ Проверить uid на номер
 Отправляет данные в чат
 Жуёт либо <reply>, либо <uid>"""
         await check(m, self.strings['check'], self.strings['version'])
 
-    async def gbsliv(self, m):
+    async def pcheckcmd(self, m):
         """ Проверить номер на наличие в бд
 Отправляет данные в чат
 Жуёт либо <reply>, либо <phone>"""
         await check(m, self.strings['check'], self.strings['version'], 'p')
 
-    async def gbcheck(self, m):
+    async def scheckcmd(self, m):
         """ Аналогично check
 Отправляет данные в избранное
 Жуёт либо <reply>, либо <uid>"""
         await check(m, self.strings['check'], self.strings['version'], save=True)
 
-    async def gbslivsilent(self, m):
+    async def spcheckcmd(self, m):
         """ Аналогично pcheck
 Отправляет данные в избранное
 Жуёт либо <reply>, либо <phone>"""
