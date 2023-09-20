@@ -15,7 +15,7 @@ class EyeCheckerTGMod(loader.Module):
     """GBSLIV v1.2"""
     strings = {
         'name': 'GBSLIV',
-        'check': '[EYE_API] Делаем запрос к API...',
+        'check': '[EZHG] Делаем запрос к API...',
         'version': '1.2.1'
     }
 
@@ -61,7 +61,7 @@ async def check(m, string, version, arg='u', save=False):
             try:
                 user = str((await m.client.get_entity(user)).id)
             except Exception as e:
-                return await m.edit(f"]EYE_API[ <b>Err:</b> {e}")
+                return await m.edit(f"]EZHG[ <b>Err:</b> {e}")
     elif reply:
         try:
             if arg == 'u':
@@ -69,16 +69,16 @@ async def check(m, string, version, arg='u', save=False):
             elif arg == 'p':
                 user = reply.contact.phone_number[1:]
         except Exception as e:
-            return await m.edit(f"]EYE_API[ <b>Err:</b> {e}")
+            return await m.edit(f"]EZHG[ <b>Err:</b> {e}")
     else:
-        return await m.edit("?EYE_API? А кого чекать?")
+        return await m.edit("?EZHG? А кого чекать?")
     await m.edit(string)
     url_arg = ("uid" if arg == 'u' else "phone")
     resp = await utils.run_sync(
         lambda: requests.get(f'http://api.murix.ru/eye?v={version}&{url_arg}={user}').json()['data']
     )
     if save:
-        await m.client.send_message("me", f"[EYE_API] Ответ API: <code>{resp}</code>")
-        await m.edit(f"[EYE_API] Ответ API отправлен в избранное!")
+        await m.client.send_message("me", f"[EZHG] Ответ API: <code>{resp}</code>")
+        await m.edit(f"[EZHG] Ответ API отправлен в избранное!")
     else:
-        await m.edit(f"[EYE_API] Ответ API: <code>{resp}</code>")
+        await m.edit(f"[EZHG] Ответ API: <code>{resp}</code>")
