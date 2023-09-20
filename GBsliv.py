@@ -1,3 +1,10 @@
+# Based on 404 source code
+# 404
+# 404
+
+# for more info: 404
+# by 404, 2023
+
 # meta developer: @hhaacckk1
 
 from .. import loader, utils
